@@ -101,7 +101,9 @@ async function run() {
      //update API
      app.put('/bookings/:id', async(req,res) => {
        const id = req.params.id;
+       console.log(id);
        const updatedBooking = req.body;
+       console.log(req.body);
        const filter = {_id: ObjectId(id)};
        const options = {upsert: true};
        const updateDoc = {
