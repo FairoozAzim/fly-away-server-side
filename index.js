@@ -79,6 +79,15 @@ async function run() {
 
       })
 
+       //single booking
+       app.get('/bookings/:id', async(req,res) => {
+        const id = req.params.id;
+        //console.log('Id found',id);
+        const query = {_id: ObjectId(id)};
+        const booking = await allBookings.findOne(query);
+        res.json(booking);
+    })
+
       //delete API to delete bookings
      app.delete('/bookings/:id', async(req,res) => {
          const id= req.params.id;
@@ -87,6 +96,21 @@ async function run() {
          console.log(result);
          res.json(result);
 
+     })
+
+     //update API
+     app.put('/bookings/:id', async(req,res) => {
+       const id = req.params.id;
+       const updatedBooking = req.body;
+       const filter = {_id: ObjectId(id)};
+       const options = {upsert: true};
+       const updateDoc = {
+         $set: {
+           status: updatedBooking.status
+         },
+       };
+       const result = await allBookings.updateOne(filter, updateDoc,options);
+       res.json(result);
      })
 
     } finally {
